@@ -53,11 +53,11 @@ class DNAC_Manager:
                 return []
             url = f"https://{DNAC['host']}:{DNAC['port']}/api/v1/interface"
             headers = {"X-Auth-Token": self.token}
-            params = {"deviceId": device['id']}
+            params = {"deviceId": device.get('id') or device.get('instanceUuid')}
             response = requests.get(url, headers=headers, params=params, verify=False, timeout=10)
             response.raise_for_status()
             interfaces = response.json().get('response', [])
-            InteractionLog.objects.create(action="interfaces", device_ip=device_ip, result="success")
+            InteractionLog.objects.create(action="interfaces", device_ip=device.get('managementIpAddress'), result="success")
             return interfaces
         except Exception as e:
             InteractionLog.objects.create(action="interfaces", device_ip=device_ip, result=f"failure: {str(e)}")
