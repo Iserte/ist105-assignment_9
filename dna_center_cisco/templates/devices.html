@@ -4,13 +4,22 @@
 <body>
 <h2>Network Devices</h2>
 <table border="1">
-<tr><th>Hostname</th><th>IP Address</th><th>Platform</th><th>Status</th></tr>
+<tr>
+  <th>Hostname</th>
+  <th>IP Address</th>
+  <th>Platform</th>
+  <th>Status</th>
+  <th>Actions</th>
+</tr>
 {% for d in devices %}
 <tr>
-<td>{{ d.hostname }}</td>
-<td>{{ d.managementIpAddress }}</td>
-<td>{{ d.platformId }}</td>
-<td>{{ d.reachabilityStatus }}</td>
+  <td>{{ d.hostname }}</td>
+  <td>{{ d.managementIpAddress }}</td>
+  <td>{{ d.platformId }}</td>
+  <td>{{ d.reachabilityStatus }}</td>
+  <td>
+    <a href="/interfaces/?ip={{ d.managementIpAddress }}">View Interfaces</a>
+  </td>
 </tr>
 {% endfor %}
 </table>
