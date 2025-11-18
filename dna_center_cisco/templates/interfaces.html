@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Device Interfaces</title></head>
+<body>
+<h2>Interfaces for {{ device_ip }}</h2>
+<table border="1">
+<tr><th>Interface</th><th>Status</th><th>VLAN</th><th>Speed</th></tr>
+{% for i in interfaces %}
+<tr>
+<td>{{ i.portName }}</td>
+<td>{{ i.status }}</td>
+<td>{{ i.vlanId }}</td>
+<td>{{ i.speed }}</td>
+</tr>
+{% endfor %}
+</table>
+<a href="/devices/">Back to Devices</a>
+</body>
+</html>

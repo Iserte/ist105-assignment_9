@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Authentication Token</title></head>
+<body>
+<h2>Authentication Token</h2>
+{% if token %}
+<p>{{ token }}</p>
+{% else %}
+<p>Authentication failed.</p>
+{% endif %}
+<a href="/devices/">View Devices</a>
+</body>
+</html>

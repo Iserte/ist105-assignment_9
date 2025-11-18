@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Network Devices</title></head>
+<body>
+<h2>Network Devices</h2>
+<table border="1">
+<tr><th>Hostname</th><th>IP Address</th><th>Platform</th><th>Status</th></tr>
+{% for d in devices %}
+<tr>
+<td>{{ d.hostname }}</td>
+<td>{{ d.managementIpAddress }}</td>
+<td>{{ d.platformId }}</td>
+<td>{{ d.reachabilityStatus }}</td>
+</tr>
+{% endfor %}
+</table>
+<a href="/token/">Back to Token</a>
+</body>
+</html>
