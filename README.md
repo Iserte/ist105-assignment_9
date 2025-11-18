@@ -33,7 +33,7 @@ The application provides a simple web interface to:
    `pip3 install -r requirements.txt`
 
 3. Configure Cisco DNA Center credentials in dnac_config.py:
-   ```json
+   ```python
    DNAC = {
        "host": "sandboxdnac.cisco.com",
        "port": 443,
