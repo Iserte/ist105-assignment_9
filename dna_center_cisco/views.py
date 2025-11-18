@@ -44,24 +44,35 @@ class DNAC_Manager:
             return []
 
     def get_device_interfaces(self, device_ip):
-        if not self.token:
-            return []
-        try:
-            devices = self.get_network_devices()
-            device = next((d for d in devices if d.get('managementIpAddress') == device_ip), None)
-            if not device:
-                return []
-            url = f"https://{DNAC['host']}:{DNAC['port']}/api/v1/interface"
-            headers = {"X-Auth-Token": self.token}
-            params = {"deviceId": device.get('id') or device.get('instanceUuid')}
-            response = requests.get(url, headers=headers, params=params, verify=False, timeout=10)
-            response.raise_for_status()
-            interfaces = response.json().get('response', [])
-            InteractionLog.objects.create(action="interfaces", device_ip=device.get('managementIpAddress'), result="success")
-            return interfaces
-        except Exception as e:
-            InteractionLog.objects.create(action="interfaces", device_ip=device_ip, result=f"failure: {str(e)}")
-            return []
+      if not self.token:
+          return []
+      try:
+          devices = self.get_network_devices()
+          device = next((d for d in devices if d.get('managementIpAddress') == device_ip), None)
+          if not device:
+              return []
+          device_id = device.get('id') or device.get('instanceUuid')
+          if not device_id:
+              return []
+          url = f"https://{DNAC['host']}:{DNAC['port']}/api/v1/interface"
+          headers = {"X-Auth-Token": self.token}
+          params = {"deviceId": device_id}
+          response = requests.get(url, headers=headers, params=params, verify=False, timeout=10)
+          response.raise_for_status()
+          interfaces = response.json().get('response', [])
+          InteractionLog.objects.create(
+              action="interfaces",
+              device_ip=device.get('managementIpAddress') or device_ip,
+              result="success"
+          )
+          return interfaces
+      except Exception as e:
+          InteractionLog.objects.create(
+              action="interfaces",
+              device_ip=device_ip,
+              result=f"failure: {str(e)}"
+          )
+          return []
 
 # Django views
 def show_token(request):
